@@ -1,0 +1,4 @@
+(executable
+ (public_name Parallel_Progamming_in_OCaml)
+ (name main)
+ (libraries Parallel_Progamming_in_OCaml))
