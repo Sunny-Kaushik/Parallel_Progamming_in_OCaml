@@ -15,3 +15,9 @@
  (name mergesort_imperative)
  (public_name mergesort_imperative)
  (libraries algos))
+
+(executable
+ (modules mergesort_functional)
+ (name mergesort_functional)
+ (public_name mergesort_functional)
+ (libraries algos))
