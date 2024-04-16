@@ -4,6 +4,11 @@
  (public_name fibonacci)
  (libraries algos))
 
+(executable
+ (modules mat_mul)
+ (name mat_mul)
+ (public_name mat_mul)
+ (libraries algos))
 
 (executable
  (modules mergesort_imperative)
