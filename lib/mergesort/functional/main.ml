@@ -1,5 +1,8 @@
 open Domainslib
 
+let rec generate_random_list size =
+  if size <= 0 then [] else Random.int 1000000 :: generate_random_list (size - 1)
+
 let print_int_list lst =
   List.iter
     (fun x ->
@@ -76,15 +79,17 @@ let rec merge_sort_parallel pool lst =
       let sorted_right = Task.await pool sorted_right_task in
       merge pool sorted_left sorted_right
 
-let lst = [ 4; 2; 5; 1; 6; 3 ]
+let size = 1000000
 
 let normal () =
+  let lst = generate_random_list size in
   let sorted_lst = merge_sort lst in
   print_int_list sorted_lst
 
 let parallel () =
   let n_domains = 8 in
   let pool = Task.setup_pool ~num_domains:(n_domains - 1) () in
+  let lst = generate_random_list size in
   let sorted_lst = Task.run pool (fun () -> merge_sort_parallel pool lst) in
   Task.teardown_pool pool;
   print_int_list sorted_lst

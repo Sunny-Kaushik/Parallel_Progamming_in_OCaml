@@ -1,11 +1,19 @@
 open Domainslib
 
-let print_arr lst =
+let generate_random_array size =
+  let arr = Array.make size 0 in
+  for i = 0 to size - 1 do
+    arr.(i) <-
+      Random.int 1000000 (* Generate random integers between 0 and 999 *)
+  done;
+  arr
+
+let print_arr arr =
   Array.iter
     (fun xi ->
       print_int xi;
       print_string " ")
-    lst;
+    arr;
   print_newline ()
 
 let rec merge_sort arr =
@@ -82,16 +90,17 @@ let rec merge_sort_parallel pool arr =
     let sorted_right = Task.await pool sorted_right_task in
     merge pool sorted_left sorted_right
 
-let lst = [| 7; 6; 5; 4; 10; 1 |]
+let size = 1000000
 
-let normal() =
-    let sorted_lst = merge_sort lst in
-    print_arr sorted_lst
-
+let normal () =
+  let arr = generate_random_array size in
+  let sorted_arr = merge_sort arr in
+  print_arr sorted_arr
 
 let parallel () =
   let n_domains = 8 in
   let pool = Task.setup_pool ~num_domains:(n_domains - 1) () in
-  let sorted_lst = Task.run pool (fun () -> merge_sort_parallel pool lst) in
+  let arr = generate_random_array size in
+  let sorted_arr = Task.run pool (fun () -> merge_sort_parallel pool arr) in
   Task.teardown_pool pool;
-  print_arr sorted_lst
+  print_arr sorted_arr
