@@ -1,11 +1,11 @@
 (lang dune 3.15)
 
-(name Parallel_Progamming_in_OCaml)
+(name algos)
 
 (generate_opam_files true)
 
 (source
- (github username/reponame))
+ (github RohitShah1706/Parallel_Progamming_in_OCaml))
 
 (authors "Author Name")
 
@@ -16,7 +16,7 @@
 (documentation https://url/to/documentation)
 
 (package
- (name Parallel_Progamming_in_OCaml)
+ (name algos)
  (synopsis "A short synopsis")
  (description "A longer description")
  (depends ocaml dune)

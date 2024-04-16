@@ -6,9 +6,10 @@ maintainer: ["Maintainer Name"]
 authors: ["Author Name"]
 license: "LICENSE"
 tags: ["topics" "to describe" "your" "project"]
-homepage: "https://github.com/username/reponame"
+homepage: "https://github.com/RohitShah1706/Parallel_Progamming_in_OCaml"
 doc: "https://url/to/documentation"
-bug-reports: "https://github.com/username/reponame/issues"
+bug-reports:
+  "https://github.com/RohitShah1706/Parallel_Progamming_in_OCaml/issues"
 depends: [
   "ocaml"
   "dune" {>= "3.15"}
@@ -28,4 +29,5 @@ build: [
     "@doc" {with-doc}
   ]
 ]
-dev-repo: "git+https://github.com/username/reponame.git"
+dev-repo:
+  "git+https://github.com/RohitShah1706/Parallel_Progamming_in_OCaml.git"
