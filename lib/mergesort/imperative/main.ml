@@ -90,7 +90,8 @@ let normal() =
 
 
 let parallel () =
-  let pool = Task.setup_pool ~num_domains:4 () in
+  let n_domains = 8 in
+  let pool = Task.setup_pool ~num_domains:(n_domains - 1) () in
   let sorted_lst = Task.run pool (fun () -> merge_sort_parallel pool lst) in
   Task.teardown_pool pool;
   print_arr sorted_lst
