@@ -1,4 +1,12 @@
 (executable
+ (modules fibonacci)
  (name fibonacci)
  (public_name fibonacci)
+ (libraries algos))
+
+
+(executable
+ (modules mergesort_imperative)
+ (name mergesort_imperative)
+ (public_name mergesort_imperative)
  (libraries algos))
