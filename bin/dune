@@ -21,3 +21,21 @@
  (name mergesort_functional)
  (public_name mergesort_functional)
  (libraries algos))
+
+(executable
+ (modules lu_decomposition)
+ (name lu_decomposition)
+ (public_name lu_decomposition)
+ (libraries algos))
+
+(executable
+ (modules quicksort_imperative)
+ (name quicksort_imperative)
+ (public_name quicksort_imperative)
+ (libraries algos))
+
+(executable
+ (modules quicksort_functional)
+ (name quicksort_functional)
+ (public_name quicksort_functional)
+ (libraries algos))
