@@ -1,4 +1,10 @@
 (executable
+ (modules determinant)
+ (name determinant)
+ (public_name determinant)
+ (libraries algos))
+
+(executable
  (modules fibonacci)
  (name fibonacci)
  (public_name fibonacci)
@@ -20,6 +26,12 @@
  (modules mergesort_functional)
  (name mergesort_functional)
  (public_name mergesort_functional)
+ (libraries algos))
+
+(executable
+ (modules nbody)
+ (name nbody)
+ (public_name nbody)
  (libraries algos))
 
 (executable
