@@ -13,14 +13,18 @@ let advance bodies n_bodies dt =
     let b = bodies.(i) in
     for j = i + 1 to n_bodies - 1 do
       let b' = bodies.(j) in
+      (* ith body is own & consider wrt to jth body *)
       let dx = b.x -. b'.x and dy = b.y -. b'.y and dz = b.z -. b'.z in
       let dist2 = (dx *. dx) +. (dy *. dy) +. (dz *. dz) in
+      (* find magnitude of gravitational force b/w b & b' using distance b/w them *)
       let mag = dt /. (dist2 *. sqrt dist2) in
 
+      (* update velocity of b wrt b' *)
       b.vx <- b.vx -. (dx *. b'.mass *. mag);
       b.vy <- b.vy -. (dy *. b'.mass *. mag);
       b.vz <- b.vz -. (dz *. b'.mass *. mag);
 
+      (* update velocity of b' wrt b *)
       b'.vx <- b'.vx +. (dx *. b.mass *. mag);
       b'.vy <- b'.vy +. (dy *. b.mass *. mag);
       b'.vz <- b'.vz +. (dz *. b.mass *. mag)
@@ -31,6 +35,7 @@ let update bodies dt =
   let n_bodies = Array.length bodies in
   for i = 0 to n_bodies - 1 do
     let b = bodies.(i) in
+    (* update position of body 'b' based on it's current velocity *)
     b.x <- b.x +. (dt *. b.vx);
     b.y <- b.y +. (dt *. b.vy);
     b.z <- b.z +. (dt *. b.vz)
@@ -83,7 +88,12 @@ let main () =
   let n = 256 in
   let num_bodies = 4096 in
   let bodies = initialize_bodies num_bodies in
+  
+  (* dt -> used to calculate changes in velocity & position of bodies over time *)
   let dt = 0.01 in
+  
+  (* makes sure total momentum of the system is zero *)
+  (* help simplify our simulation by making the center of mass stationary *)
   offset_momentum bodies;
   Printf.printf "%.9f\n" (energy bodies);
   for _i = 1 to n do

@@ -1,4 +1,10 @@
 (executable
+ (modules btree_height)
+ (name btree_height)
+ (public_name btree_height)
+ (libraries algos))
+
+(executable
  (modules determinant)
  (name determinant)
  (public_name determinant)

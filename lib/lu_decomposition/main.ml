@@ -109,6 +109,20 @@ let determinant_lu_pivot_parallel pool matrix =
 
 let size = 100
 
+let main () =
+  let m = generate_random_matrix size in
+  let mcopy = Array.copy m in
+  let res = determinant_lu_pivot m in
+  Printf.printf "Res normal: %f\n" res;
+
+  let n_domains = 8 in
+  let pool = Task.setup_pool ~num_domains:(n_domains - 1) () in
+  let res =
+    Task.run pool (fun () -> determinant_lu_pivot_parallel pool mcopy)
+  in
+  Task.teardown_pool pool;
+  Printf.printf "Res parallel: %f\n" res
+
 let normal () =
   let m = generate_random_matrix size in
   let res = determinant_lu_pivot m in

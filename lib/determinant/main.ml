@@ -1,5 +1,7 @@
 open Domainslib
 
+let () = Random.init 42
+
 let get_determinant_bareiss_normal vect =
   let dim = Array.length vect in
   if dim <= 0 then 0.0
@@ -67,12 +69,12 @@ let generate_random_matrix size =
   let m = Array.make_matrix size size 0. in
   for i = 0 to size - 1 do
     for j = 0 to size - 1 do
-      m.(i).(j) <- Random.float 0.2
+      m.(i).(j) <- Random.float 0.3
     done
   done;
   m
 
-let size = 1024
+let size = 800
 
 let normal matrix =
   (* let matrix = generate_random_matrix size in *)
