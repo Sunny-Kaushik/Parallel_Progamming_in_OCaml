@@ -12,18 +12,20 @@ let rec random_bin_tree height =
     let right_height = height - 1 - left_height in
     BTNonEmpty (value, random_bin_tree left_height, random_bin_tree right_height)
 
-let rec random_bin_tree_parallel (first_time : bool) (pool : Task.pool) height =
+let rec random_bin_tree_parallel (threads_left : int) (pool : Task.pool) height
+    =
   if height <= 0 then BTEmpty
-  else if first_time then
+  else if threads_left >= 2 then
     let value = Random.int 100 in
     let left_height = Random.int height in
     let right_height = height - 1 - left_height in
     let left =
-      Task.async pool (fun _ -> random_bin_tree_parallel false pool left_height)
+      Task.async pool (fun _ ->
+          random_bin_tree_parallel (threads_left - 1) pool left_height)
     in
     let right =
       Task.async pool (fun _ ->
-          random_bin_tree_parallel false pool right_height)
+          random_bin_tree_parallel (threads_left - 2) pool right_height)
     in
     BTNonEmpty (value, Task.await pool left, Task.await pool right)
   else
@@ -33,13 +35,6 @@ let rec random_bin_tree_parallel (first_time : bool) (pool : Task.pool) height =
     let left = Task.async pool (fun _ -> random_bin_tree left_height) in
     let right = Task.async pool (fun _ -> random_bin_tree right_height) in
     BTNonEmpty (value, Task.await pool left, Task.await pool right)
-
-(* let value = Random.int 100 in
-   let left_height = Random.int height in
-   let right_height = height - 1 - left_height in
-   let left = Task.async pool (fun _ -> random_bin_tree left_height) in
-   let right = Task.async pool (fun _ -> random_bin_tree right_height) in
-   BTNonEmpty (value, Task.await pool left, Task.await pool right) *)
 
 let rec height_bin_tree_normal = function
   | BTEmpty -> 0
@@ -66,10 +61,10 @@ let normal () =
   Printf.printf "Height of tree: %d\n" h
 
 let parallel () =
-  let n_domains = 2 in
+  let n_domains = 8 in
   let pool = Task.setup_pool ~num_domains:(n_domains - 1) () in
   let tree =
-    Task.run pool (fun () -> random_bin_tree_parallel true pool height)
+    Task.run pool (fun () -> random_bin_tree_parallel n_domains pool height)
   in
   let h = Task.run pool (fun () -> height_bin_tree_parallel pool tree) in
   Task.teardown_pool pool;
