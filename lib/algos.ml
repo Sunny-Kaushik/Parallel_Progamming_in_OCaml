@@ -10,3 +10,6 @@ module NBody_Write_Optimized = Nbody.Write_optimized.Main
 module Lu_decomposition = Lu_decomposition.Main
 module Quicksort_Imperative = Quicksort.Imperative.Main
 module Quicksort_Functional = Quicksort.Functional.Main
+module Svd = Svd.Main
+module Qr_decomp_gram = Qr_decomp.Gram.Main
+module Fft = Fft.Main

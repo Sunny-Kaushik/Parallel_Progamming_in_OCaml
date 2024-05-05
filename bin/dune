@@ -57,3 +57,21 @@
  (name quicksort_functional)
  (public_name quicksort_functional)
  (libraries algos))
+
+(executable
+ (modules svd)
+ (name svd)
+ (public_name svd)
+ (libraries algos))
+
+(executable
+ (modules qr_decomp_gram)
+ (name qr_decomp_gram)
+ (public_name qr_decomp_gram)
+ (libraries algos))
+
+(executable
+ (modules fft)
+ (name fft)
+ (public_name fft)
+ (libraries algos))
