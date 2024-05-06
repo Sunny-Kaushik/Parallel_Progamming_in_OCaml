@@ -31,6 +31,16 @@ let matrix_mult n a b =
 let matrix_mult_parallel pool n a b =
   let result = Array.make_matrix n n 0 in
   Task.parallel_for pool ~start:0 ~finish:(n - 1) ~body:(fun i ->
+      for j = 0 to n - 1 do
+        for k = 0 to n - 1 do
+          result.(i).(j) <- result.(i).(j) + (a.(i).(k) * b.(k).(j))
+        done
+      done);
+  result
+
+let matrix_mult_parallel_write_optimized pool n a b =
+  let result = Array.make_matrix n n 0 in
+  Task.parallel_for pool ~start:0 ~finish:(n - 1) ~body:(fun i ->
       for k = 0 to n - 1 do
         for j = 0 to n - 1 do
           result.(i).(j) <- result.(i).(j) + (a.(i).(k) * b.(k).(j))
@@ -50,5 +60,15 @@ let parallel () =
   let m = generate_random_matrix size and n = generate_random_matrix size in
   let pool = Task.setup_pool ~num_domains:(n_domains - 1) () in
   let res = Task.run pool (fun () -> matrix_mult_parallel pool size m n) in
+  Task.teardown_pool pool;
+  print_matrix res
+
+let parallel_write_optimized () =
+  let n_domains = 8 in
+  let m = generate_random_matrix size and n = generate_random_matrix size in
+  let pool = Task.setup_pool ~num_domains:(n_domains - 1) () in
+  let res =
+    Task.run pool (fun () -> matrix_mult_parallel_write_optimized pool size m n)
+  in
   Task.teardown_pool pool;
   print_matrix res
